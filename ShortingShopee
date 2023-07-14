@@ -1,0 +1,114 @@
+package Semester2Uas;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+    class Product {
+        private String name;
+        private int price;
+
+        public Product(String name, int price) {
+            this.name = name;
+            this.price = price;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getPrice() {
+            return price;
+        }
+
+        @Override
+        public String toString() {
+            return "Barang{" +
+                    "nama='" + name + '\'' +
+                    ", harga=" + price +
+                    '}';
+        }
+    }
+
+    class Inventory {
+        private List<Product> daftarBarang;
+
+        public Inventory() {
+            daftarBarang = new ArrayList<>();
+        }
+
+        public void tambahBarang(Product barang) {
+            daftarBarang.add(barang);
+        }
+
+        public List<Product> cariBarang(String keyword) {
+            List<Product> hasilPencarian = new ArrayList<>();
+            for (Product barang : daftarBarang) {
+                if (barang.getName().equalsIgnoreCase(keyword)) {
+                    hasilPencarian.add(barang);
+                }
+            }
+            return hasilPencarian;
+        }
+
+        public void selectionSort() {
+            int n = daftarBarang.size();
+            for (int i = 0; i < n - 1; i++) {
+                int minIndex = i;
+                for (int j = i + 1; j < n; j++) {
+                    if (daftarBarang.get(j).getName().compareToIgnoreCase(daftarBarang.get(minIndex).getName()) < 0) {
+                        minIndex = j;
+                    }
+                }
+                Product temp = daftarBarang.get(minIndex);
+                daftarBarang.set(minIndex, daftarBarang.get(i));
+                daftarBarang.set(i, temp);
+            }
+        }
+
+        public void tampilkanInventory() {
+            for (Product barang : daftarBarang) {
+                System.out.println(barang);
+            }
+        }
+    }
+
+
+
+    public class Shopee {
+        public static void main(String[] args) {
+            Inventory inventory = new Inventory();
+
+
+            inventory.tambahBarang(new Product("Monitor", 3000000));
+            inventory.tambahBarang(new Product("Headset", 300000));
+            inventory.tambahBarang(new Product("Keyboard", 9000000));
+            inventory.tambahBarang(new Product("Mouse", 500000));
+            inventory.tambahBarang(new Product("Hardisk", 2300000));
+            
+
+            System.out.println("Inventory sebelum diurutkan:");
+            inventory.tampilkanInventory();
+            System.out.println();
+
+
+            inventory.selectionSort();
+            System.out.println("Inventory setelah diurutkan:");
+            inventory.tampilkanInventory();
+            System.out.println();
+
+            String keyword = "Laptop";
+            List<Product> hasilPencarian = inventory.cariBarang(keyword);
+
+
+            System.out.println("Berikut Hasil pencarian barang dengan nama \"" + keyword + "\":");
+            if (hasilPencarian.isEmpty()) {
+                System.out.println("Maaf, Tidak ditemukan barang dengan nama \"" + keyword + "\"");
+            } else {
+                for (Product barang : hasilPencarian) {
+                    System.out.println(barang);
+                }
+            }
+        }
+    }
+    
